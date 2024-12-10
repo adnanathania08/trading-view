@@ -69,30 +69,27 @@ const HomePage = () => {
   };
   return (
     <>
-      
-      <div className="MainContainer w-full font-inter font-normal px-4 sm:px-8">
-        <div className="InnerContainer border-2 w-full sm:w-4/5 md:w-3/5 lg:w-2/5 mt-10 mx-auto p-5 rounded-md shadow-lg">
-          <div className="mt-2 mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            <TiInfo className="text-xl" />
-            <p className="text-sm sm:text-base">
+      <div className="MainContainer  font-inter font-normal px-4">
+        {/* <div className="InnerContainer border-2 sm:w-4/5 md:w-3/5 lg:w-2/5 w-full mt-10 mx-4 sm:mx-auto p-5 rounded-md shadow-lg bg-slate-400"> */}
+        <div className="InnerContainer border-2 sm:w-4/5 md:w-3/5 lg:w-[30%] w-full mt-10 mx- sm:mx-auto p-5 rounded-md shadow-lg">
+          <div className=" mt-2 mb-6 flex items-center gap-3">
+            <TiInfo className=" text-xl" />
+            <p>
               Please refer to{" "}
               <a
-                className="text-blue-800"
+                className=" text-blue-800"
                 href="https://finance.yahoo.com/"
                 target="_blank"
-                rel="noopener noreferrer"
               >
                 Yahoo finance site
               </a>{" "}
               for Symbol names
             </p>
           </div>
-          <div className="InputContainer flex flex-col sm:flex-row gap-2 items-start sm:items-center">
-            <label htmlFor="symbol" className="text-sm sm:text-base">
-              Symbol :
-            </label>
+          <div className="InputContainer flex gap-2 items-center">
+            <label htmlFor="username">Symbol :</label>
             <input
-              className="outline-1 bg-gray-200 rounded-lg p-2 w-full sm:w-auto"
+              className="outline-1 bg-gray-200 rounded-lg p-2"
               type="text"
               name="symbol"
               id="symbol"
@@ -100,14 +97,14 @@ const HomePage = () => {
               onChange={(e) => setSymbol(e.target.value)}
             />
           </div>
-          {/* Dropdowns */}
+          {/* ------- */}
           <div className="Dropdowns mt-4">
-            <div className="flex flex-col sm:flex-row gap-4">
-              {/* Interval Dropdown */}
+            <div className="gap-4 flex flex-col">
+              {/* -INTERVAL */}
               <select
                 name="interval"
                 id="interval"
-                className="p-2 border rounded-md bg-gray-200 w-full sm:w-auto"
+                className="p-2 border rounded-md bg-gray-200 "
                 onChange={intervalHandler}
                 defaultValue={""}
               >
@@ -116,39 +113,160 @@ const HomePage = () => {
                 </option>
                 <option
                   value="1m"
+                  disabled={intraDayPeriods.includes(period) || period == "1mo"}
+                >
+                  1 minutes
+                </option>
+                <option value="2m" disabled={intraDayPeriods.includes(period)}>
+                  2 minutes
+                </option>
+                <option value="5m" disabled={intraDayPeriods.includes(period)}>
+                  5 minutes
+                </option>
+                <option value="15m" disabled={intraDayPeriods.includes(period)}>
+                  15 minutes
+                </option>
+                <option value="30m" disabled={intraDayPeriods.includes(period)}>
+                  30 minutes
+                </option>
+                <option value="60m" disabled={intraDayPeriods.includes(period)}>
+                  60 minutes
+                </option>
+                <option value="90m" disabled={intraDayPeriods.includes(period)}>
+                  90 minutes
+                </option>
+                <option value="1d" disabled={period == "1d"}>
+                  1 day
+                </option>
+                <option value="5d" disabled={period == "1d" || period == "5d"}>
+                  5 day
+                </option>
+                <option value="1wk" disabled={period == "1d" || period == "5d"}>
+                  1 week
+                </option>
+                <option
+                  value="1mo"
+                  disabled={period == "1d" || period == "5d" || period == "1mo"}
+                >
+                  1 month
+                </option>
+                <option
+                  value="3mo"
                   disabled={
-                    intraDayPeriods.includes(period) || period === "1mo"
+                    period == "1d" ||
+                    period == "5d" ||
+                    period == "1mo" ||
+                    period == "3mo"
                   }
                 >
-                  1 minute
+                  3 months
                 </option>
-                {/* Other options here */}
               </select>
-              {/* Period Dropdown */}
               <select
                 name="timeframe"
                 id="timeframe"
-                className="p-2 border rounded-md bg-gray-200 w-full sm:w-auto"
-                onChange={(e) => setPeriod(e.target.value)}
+                className="p-2 border rounded-md bg-gray-200"
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setPeriod(e.target.value)
+                }
                 defaultValue={""}
               >
                 <option value="" disabled>
                   Select a period
                 </option>
-                <option value="1d" disabled={interval === "1d"}>
+                <option
+                  disabled={
+                    interval === "1d" ||
+                    interval == "5d" ||
+                    interval == "1wk" ||
+                    interval == "1mo" ||
+                    interval == "3mo"
+                  }
+                  value="1d"
+                >
                   1 day of data
                 </option>
-                {/* Other options here */}
+                <option
+                  value="5d"
+                  disabled={
+                    interval == "5d" ||
+                    interval == "1wk" ||
+                    interval == "1mo" ||
+                    interval == "3mo"
+                  }
+                >
+                  Last 5 days of data
+                </option>
+                <option
+                  disabled={
+                    interval == "1mo" || interval == "3mo" || interval == "1m"
+                  }
+                  value="1mo"
+                >
+                  Last 1 month of data
+                </option>
+
+                <option
+                  disabled={
+                    interval == "3mo" || intraDayIntervals.includes(interval)
+                  }
+                  value="3mo"
+                >
+                  Last 3 months of data
+                </option>
+                <option
+                  value="6mo"
+                  disabled={intraDayIntervals.includes(interval)}
+                >
+                  Last 6 months of data
+                </option>
+                <option
+                  value="1y"
+                  disabled={intraDayIntervals.includes(interval)}
+                >
+                  Last 1 year of data
+                </option>
+                <option
+                  value="2y"
+                  disabled={intraDayIntervals.includes(interval)}
+                >
+                  Last 2 years of data
+                </option>
+                <option
+                  value="5y"
+                  disabled={intraDayIntervals.includes(interval)}
+                >
+                  Last 5 years of data
+                </option>
+                <option
+                  value="10y"
+                  disabled={intraDayIntervals.includes(interval)}
+                >
+                  Last 10 years of data
+                </option>
+                <option
+                  value="ytd"
+                  disabled={intraDayIntervals.includes(interval)}
+                >
+                  Data since the start of the current year
+                </option>
+                <option
+                  value="max"
+                  disabled={intraDayIntervals.includes(interval)}
+                >
+                  Maximum available data
+                </option>
               </select>
             </div>
             <button
-              className="mt-8 bg-blue-500 py-2 px-6 rounded-lg text-white w-full sm:w-auto"
-              type="button"
+              className="mt-8 bg-blue-500 py-2 px-6 rounded-lg text-white"
+              type="button" // Use "submit" type for form submission
               onClick={submitHandler}
             >
               Submit
             </button>
           </div>
+          {/* ------- */}
         </div>
       </div>
     </>
